@@ -1,15 +1,9 @@
----
-
-### Now let’s keep stacking the build:
-
-Here comes the **next wave of files** — drop these in one by one, commit after, and let’s solidify the structure.
-
----
-
-## 🔹 `README.md`
+## ✅ Updated `README.md` (with Streamlit badge & link)
 
 ```markdown
 # 🧬 CureChain
+
+[![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://curechain-wcvpgkb2uhjvxzsmxzyum2.streamlit.app)
 
 **CureChain** is the world’s first **Decentralized Protocol Registry (DPR)** for open-source, sovereign healing.
 
@@ -20,10 +14,9 @@ This platform enables researchers, practitioners, and sovereign contributors to 
 ## 🛠️ How to Use
 
 ### 🔍 View Existing Protocols
-1. Run the app:
-```bash
-streamlit run app.py
-```
+1. Visit the live app:  
+   👉 [**Launch CureChain**](https://curechain-wcvpgkb2uhjvxzsmxzyum2.streamlit.app)
+
 2. Select "View Protocols" from the sidebar  
 3. Choose a protocol (like INFLUX-CORE)  
 4. Explore abstract, methods, results, discussion, and references

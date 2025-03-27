@@ -1,6 +1,6 @@
 ## ✅ Updated `README.md` (with Streamlit badge & link)
 
-```markdown
+
 # 🧬 CureChain
 
 [![Streamlit](https://static.streamlit.io/badges/streamlit_badge_black_white.svg)](https://curechain-wcvpgkb2uhjvxzsmxzyum2.streamlit.app)

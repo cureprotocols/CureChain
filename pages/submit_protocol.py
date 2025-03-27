@@ -2,6 +2,7 @@
 import streamlit as st
 import json
 import os
+from utils.validators import validate_protocol_structure
 
 def show_submit_protocol():
     st.title("📤 Submit a CureChain Protocol")
@@ -28,6 +29,13 @@ def show_submit_protocol():
             "conclusion": conclusion,
             "references": [r.strip() for r in references.split(",")]
         }
+
+        valid, issues = validate_protocol_structure(protocol)
+
+        if not valid:
+            st.error("🚫 Submission failed. Protocol is missing required fields.")
+            st.json(issues)
+            return
 
         os.makedirs("protocols", exist_ok=True)
         filename = title.lower().replace(" ", "_") + ".json"

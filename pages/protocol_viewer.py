@@ -2,24 +2,21 @@ import openai
 import requests
 import streamlit as st
 
-# Set up OpenAI API key
-openai.api_key = "your-openai-api-key"
-
-# Function to get new literature
+# Function to fetch new research articles from an external source (e.g., PubMed)
 def fetch_new_research(protocol_name):
-    # Here, you would add a web scraping or API call to fetch new studies
-    # For simplicity, we'll just simulate it with a string for now
-    return f"New study on {protocol_name} shows promising results in influenza treatment using Baicalin."
+    # Example: Fetching articles related to Baicalin and influenza (simulate this with API or web scraping)
+    new_research = f"New study on {protocol_name} suggests Baicalin is more effective in treating new influenza strains. Research by [Author et al.] shows 50% improvement."
+    return new_research
 
-# Function to update protocol with new literature
+# Function to generate and update protocol content based on new research
 def update_protocol_with_new_data(protocol_name):
     new_data = fetch_new_research(protocol_name)
     
-    # Generate new protocol content using GPT
+    # Generate updated protocol using GPT
     response = openai.Completion.create(
         model="text-davinci-003",
-        prompt=f"Update the protocol for {protocol_name} with the following new data: {new_data}. Provide a summary of how this affects the treatment approach.",
-        max_tokens=300
+        prompt=f"Update the protocol for {protocol_name} with the following new data: {new_data}. Provide a detailed protocol update.",
+        max_tokens=500
     )
     return response.choices[0].text.strip()
 

@@ -14,8 +14,9 @@ def show_protocol_viewer():
 
     st.markdown("### 🔬 Browse Available Protocols")
 
-    # Add a search bar
-    search_query = st.text_input("Search Protocols")
+    # Pagination controls
+    page_size = 3  # Number of protocols per page
+    page_number = st.session_state.get("page_number", 1)
 
     # List of protocols
     featured_protocols = [
@@ -24,19 +25,29 @@ def show_protocol_viewer():
         {"name": "Protocol 3", "description": "Brief description of Protocol 3.", "link": "protocol_3"},
         {"name": "Protocol 4", "description": "Brief description of Protocol 4.", "link": "protocol_4"},
         {"name": "Protocol 5", "description": "Brief description of Protocol 5.", "link": "protocol_5"},
+        {"name": "Protocol 6", "description": "Brief description of Protocol 6.", "link": "protocol_6"},
+        {"name": "Protocol 7", "description": "Brief description of Protocol 7.", "link": "protocol_7"},
+        {"name": "Protocol 8", "description": "Brief description of Protocol 8.", "link": "protocol_8"},
     ]
 
-    # Filter protocols based on the search query
-    filtered_protocols = [protocol for protocol in featured_protocols if search_query.lower() in protocol["name"].lower()]
+    # Calculate the range of protocols to display based on the current page
+    start = (page_number - 1) * page_size
+    end = start + page_size
+    protocols_to_display = featured_protocols[start:end]
 
-    # Display the filtered protocols
-    if filtered_protocols:
-        cols = st.columns(3)  # Adjust columns as needed
-        for i, protocol in enumerate(filtered_protocols):
-            with cols[i % 3]:
-                st.markdown(f"**{protocol['name']}**")
-                st.write(protocol['description'])
-                if st.button(f"View {protocol['name']}"):
-                    st.experimental_set_query_params(protocol=protocol['link'])
-    else:
-        st.write("No protocols found matching your search.")
+    # Display the protocols for the current page
+    cols = st.columns(3)  # Adjust columns as needed
+    for i, protocol in enumerate(protocols_to_display):
+        with cols[i % 3]:
+            st.markdown(f"**{protocol['name']}**")
+            st.write(protocol['description'])
+            if st.button(f"View {protocol['name']}"):
+                st.experimental_set_query_params(protocol=protocol['link'])
+
+    # Pagination buttons
+    if page_number > 1:
+        if st.button("Previous Page"):
+            st.session_state.page_number -= 1
+    if end < len(featured_protocols):
+        if st.button("Next Page"):
+            st.session_state.page_number += 1

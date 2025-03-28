@@ -1,6 +1,4 @@
 import streamlit as st
-from streamlit_lottie import st_lottie
-import requests
 
 def show_protocol_viewer():
     # Welcome Banner
@@ -16,15 +14,16 @@ def show_protocol_viewer():
 
     st.markdown("### 🔬 Browse Available Protocols")
 
-    # Lottie Animation URL for carousel
-    lottie_url = "https://assets8.lottiefiles.com/packages/lf20_H5xgcm.json"  # You can customize this with your own animation
-    lottie_response = requests.get(lottie_url)
-    lottie_json = lottie_response.json()
-    
-    # Display carousel animation
-    st_lottie(lottie_json, speed=1, width=600, height=400, key="featured_protocols")
+    # New Protocols Notification
+    subscribe = st.checkbox("Subscribe to notifications for new protocols")
 
-    # Featured Protocols (You can customize this section further)
+    if subscribe:
+        # Simulate sending a notification (e.g., an email)
+        st.success("You're subscribed to notifications for new protocols!")
+    else:
+        st.write("Unsubscribed from notifications.")
+    
+    # List of protocols (example)
     featured_protocols = [
         {"name": "Protocol 1", "description": "Brief description of Protocol 1.", "link": "protocol_1"},
         {"name": "Protocol 2", "description": "Brief description of Protocol 2.", "link": "protocol_2"},

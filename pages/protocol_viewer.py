@@ -1,42 +1,35 @@
-import streamlit as st
 import openai
+import requests
+import streamlit as st
 
-# Set up your OpenAI API key (ensure this is kept secure)
+# Set up OpenAI API key
 openai.api_key = "your-openai-api-key"
 
-def generate_protocol_content(protocol_summary):
+# Function to get new literature
+def fetch_new_research(protocol_name):
+    # Here, you would add a web scraping or API call to fetch new studies
+    # For simplicity, we'll just simulate it with a string for now
+    return f"New study on {protocol_name} shows promising results in influenza treatment using Baicalin."
+
+# Function to update protocol with new literature
+def update_protocol_with_new_data(protocol_name):
+    new_data = fetch_new_research(protocol_name)
+    
+    # Generate new protocol content using GPT
     response = openai.Completion.create(
-        model="text-davinci-003",  # GPT-3 model
-        prompt=f"Generate a scientific protocol based on the following summary: {protocol_summary}",
-        max_tokens=500
+        model="text-davinci-003",
+        prompt=f"Update the protocol for {protocol_name} with the following new data: {new_data}. Provide a summary of how this affects the treatment approach.",
+        max_tokens=300
     )
     return response.choices[0].text.strip()
 
 def show_protocol_viewer():
-    st.markdown("### Create a New Protocol")
+    st.markdown("### Protocol Viewer")
 
-    # User Input for Protocol Summary
-    protocol_summary = st.text_area("Enter a brief summary of the protocol", "")
-
-    if st.button("Generate Protocol Content"):
-        if protocol_summary:
-            # Call the GPT model to generate the protocol content
-            protocol_content = generate_protocol_content(protocol_summary)
-            st.markdown("### Generated Protocol")
-            st.write(protocol_content)
-        else:
-            st.warning("Please enter a summary to generate the protocol.")
-
-    st.markdown("### Existing Protocols")
-    # Example protocols can go here, or this can list protocols already added in your system.
-    featured_protocols = [
-        {"name": "Protocol 1", "description": "Brief description of Protocol 1."},
-        {"name": "Protocol 2", "description": "Brief description of Protocol 2."}
-    ]
-
-    # Display existing protocols
-    for protocol in featured_protocols:
-        st.markdown(f"**{protocol['name']}**")
-        st.write(protocol['description'])
-        if st.button(f"View {protocol['name']}"):
-            st.experimental_set_query_params(protocol=protocol['name'])
+    protocol_name = st.text_input("Enter the protocol name", "INFLUX-CORE")
+    
+    if st.button("Update Protocol with New Research"):
+        # Automatically update the protocol with new research findings
+        updated_protocol = update_protocol_with_new_data(protocol_name)
+        st.write("### Updated Protocol Content")
+        st.write(updated_protocol)

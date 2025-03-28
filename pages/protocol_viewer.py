@@ -25,10 +25,18 @@ def show_protocol_viewer():
     </div>
     """, unsafe_allow_html=True)
 
-    # List of protocols (example placeholder, replace with actual protocol listing)
-    protocols = ["Protocol 1", "Protocol 2", "Protocol 3"]
-    
-    for protocol in protocols:
-        st.markdown(f"### {protocol}")
-        st.write("Details about this protocol go here.")
+    # Featured Protocols Grid
+    featured_protocols = [
+        {"name": "Protocol 1", "description": "Brief description of Protocol 1."},
+        {"name": "Protocol 2", "description": "Brief description of Protocol 2."},
+        {"name": "Protocol 3", "description": "Brief description of Protocol 3."},
+    ]
 
+    st.markdown("### Featured Protocols")
+    
+    cols = st.columns(3)  # You can adjust the number of columns
+    for i, protocol in enumerate(featured_protocols):
+        with cols[i % 3]:  # Distribute items across columns
+            st.markdown(f"**{protocol['name']}**")
+            st.write(protocol['description'])
+            st.button("View Protocol")

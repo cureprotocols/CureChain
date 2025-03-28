@@ -1,4 +1,6 @@
 import streamlit as st
+from streamlit_lottie import st_lottie
+import requests
 
 def show_protocol_viewer():
     # Welcome Banner
@@ -14,40 +16,27 @@ def show_protocol_viewer():
 
     st.markdown("### 🔬 Browse Available Protocols")
 
-    # Pagination controls
-    page_size = 3  # Number of protocols per page
-    page_number = st.session_state.get("page_number", 1)
+    # Lottie Animation URL for carousel
+    lottie_url = "https://assets8.lottiefiles.com/packages/lf20_H5xgcm.json"  # You can customize this with your own animation
+    lottie_response = requests.get(lottie_url)
+    lottie_json = lottie_response.json()
+    
+    # Display carousel animation
+    st_lottie(lottie_json, speed=1, width=600, height=400, key="featured_protocols")
 
-    # List of protocols
+    # Featured Protocols (You can customize this section further)
     featured_protocols = [
         {"name": "Protocol 1", "description": "Brief description of Protocol 1.", "link": "protocol_1"},
         {"name": "Protocol 2", "description": "Brief description of Protocol 2.", "link": "protocol_2"},
         {"name": "Protocol 3", "description": "Brief description of Protocol 3.", "link": "protocol_3"},
-        {"name": "Protocol 4", "description": "Brief description of Protocol 4.", "link": "protocol_4"},
-        {"name": "Protocol 5", "description": "Brief description of Protocol 5.", "link": "protocol_5"},
-        {"name": "Protocol 6", "description": "Brief description of Protocol 6.", "link": "protocol_6"},
-        {"name": "Protocol 7", "description": "Brief description of Protocol 7.", "link": "protocol_7"},
-        {"name": "Protocol 8", "description": "Brief description of Protocol 8.", "link": "protocol_8"},
     ]
 
-    # Calculate the range of protocols to display based on the current page
-    start = (page_number - 1) * page_size
-    end = start + page_size
-    protocols_to_display = featured_protocols[start:end]
-
-    # Display the protocols for the current page
+    st.markdown("### Featured Protocols")
+    
     cols = st.columns(3)  # Adjust columns as needed
-    for i, protocol in enumerate(protocols_to_display):
+    for i, protocol in enumerate(featured_protocols):
         with cols[i % 3]:
             st.markdown(f"**{protocol['name']}**")
             st.write(protocol['description'])
             if st.button(f"View {protocol['name']}"):
                 st.experimental_set_query_params(protocol=protocol['link'])
-
-    # Pagination buttons
-    if page_number > 1:
-        if st.button("Previous Page"):
-            st.session_state.page_number -= 1
-    if end < len(featured_protocols):
-        if st.button("Next Page"):
-            st.session_state.page_number += 1

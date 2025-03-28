@@ -9,15 +9,12 @@ def show_protocol_detail(protocol_name):
     """)
     st.write(f"Detailed data for {protocol_name} will be displayed here.")
 
-    # User Comment Section
-    st.markdown("### Leave a Comment")
+    # Social Sharing
+    st.markdown("### Share this protocol:")
     
-    # Get user comment
-    comment = st.text_area("Enter your comment:")
-    
-    if st.button("Submit Comment"):
-        if comment:
-            st.success("Your comment has been submitted!")
-            st.write(f"**{comment}**")
-        else:
-            st.warning("Please enter a comment before submitting.")
+    twitter_url = f"https://twitter.com/intent/tweet?text=Check%20out%20this%20protocol!%20{protocol_name}&url=https://yourwebsite.com/{protocol_name}"
+    facebook_url = f"https://www.facebook.com/sharer/sharer.php?u=https://yourwebsite.com/{protocol_name}"
+
+    # Share buttons
+    st.markdown(f"[Share on Twitter]( {twitter_url} )")
+    st.markdown(f"[Share on Facebook]( {facebook_url} )")

@@ -1,41 +1,42 @@
 import streamlit as st
+import openai
+
+# Set up your OpenAI API key (ensure this is kept secure)
+openai.api_key = "your-openai-api-key"
+
+def generate_protocol_content(protocol_summary):
+    response = openai.Completion.create(
+        model="text-davinci-003",  # GPT-3 model
+        prompt=f"Generate a scientific protocol based on the following summary: {protocol_summary}",
+        max_tokens=500
+    )
+    return response.choices[0].text.strip()
 
 def show_protocol_viewer():
-    # Welcome Banner
-    st.markdown("""
-    <div style="padding: 1rem; background-color: #1a1a1a; border-radius: 1rem; border: 1px solid #333;">
-        <h3 style='margin-bottom: 0.5rem;'>👋 Welcome to CureChain</h3>
-        <p style='font-size: 0.95rem;'>
-            This is a decentralized, open-source healing protocol registry.
-            All protocols published here are sovereign, unpatentable, and science-ready.
-        </p>
-    </div>
-    """, unsafe_allow_html=True)
+    st.markdown("### Create a New Protocol")
 
-    st.markdown("### 🔬 Browse Available Protocols")
+    # User Input for Protocol Summary
+    protocol_summary = st.text_area("Enter a brief summary of the protocol", "")
 
-    # New Protocols Notification
-    subscribe = st.checkbox("Subscribe to notifications for new protocols")
+    if st.button("Generate Protocol Content"):
+        if protocol_summary:
+            # Call the GPT model to generate the protocol content
+            protocol_content = generate_protocol_content(protocol_summary)
+            st.markdown("### Generated Protocol")
+            st.write(protocol_content)
+        else:
+            st.warning("Please enter a summary to generate the protocol.")
 
-    if subscribe:
-        # Simulate sending a notification (e.g., an email)
-        st.success("You're subscribed to notifications for new protocols!")
-    else:
-        st.write("Unsubscribed from notifications.")
-    
-    # List of protocols (example)
+    st.markdown("### Existing Protocols")
+    # Example protocols can go here, or this can list protocols already added in your system.
     featured_protocols = [
-        {"name": "Protocol 1", "description": "Brief description of Protocol 1.", "link": "protocol_1"},
-        {"name": "Protocol 2", "description": "Brief description of Protocol 2.", "link": "protocol_2"},
-        {"name": "Protocol 3", "description": "Brief description of Protocol 3.", "link": "protocol_3"},
+        {"name": "Protocol 1", "description": "Brief description of Protocol 1."},
+        {"name": "Protocol 2", "description": "Brief description of Protocol 2."}
     ]
 
-    st.markdown("### Featured Protocols")
-    
-    cols = st.columns(3)  # Adjust columns as needed
-    for i, protocol in enumerate(featured_protocols):
-        with cols[i % 3]:
-            st.markdown(f"**{protocol['name']}**")
-            st.write(protocol['description'])
-            if st.button(f"View {protocol['name']}"):
-                st.experimental_set_query_params(protocol=protocol['link'])
+    # Display existing protocols
+    for protocol in featured_protocols:
+        st.markdown(f"**{protocol['name']}**")
+        st.write(protocol['description'])
+        if st.button(f"View {protocol['name']}"):
+            st.experimental_set_query_params(protocol=protocol['name'])

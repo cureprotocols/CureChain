@@ -8,16 +8,16 @@ def show_protocol_detail(protocol_name):
     You can include research, methodology, usage guidelines, and much more.
     """)
     st.write(f"Detailed data for {protocol_name} will be displayed here.")
+
+    # User Comment Section
+    st.markdown("### Leave a Comment")
     
-    # Rating System
-    st.markdown("### Rate this protocol")
+    # Get user comment
+    comment = st.text_area("Enter your comment:")
     
-    # Save the rating (in session state for simplicity)
-    if 'rating' not in st.session_state:
-        st.session_state['rating'] = 0
-    
-    rating = st.slider('Select Rating', 1, 5, value=st.session_state['rating'])
-    
-    if st.button("Submit Rating"):
-        st.session_state['rating'] = rating
-        st.write(f"Thank you for rating this protocol: {rating} stars!")
+    if st.button("Submit Comment"):
+        if comment:
+            st.success("Your comment has been submitted!")
+            st.write(f"**{comment}**")
+        else:
+            st.warning("Please enter a comment before submitting.")

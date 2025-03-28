@@ -27,16 +27,17 @@ def show_protocol_viewer():
 
     # Featured Protocols Grid
     featured_protocols = [
-        {"name": "Protocol 1", "description": "Brief description of Protocol 1."},
-        {"name": "Protocol 2", "description": "Brief description of Protocol 2."},
-        {"name": "Protocol 3", "description": "Brief description of Protocol 3."},
+        {"name": "Protocol 1", "description": "Brief description of Protocol 1.", "link": "protocol_1"},
+        {"name": "Protocol 2", "description": "Brief description of Protocol 2.", "link": "protocol_2"},
+        {"name": "Protocol 3", "description": "Brief description of Protocol 3.", "link": "protocol_3"},
     ]
 
     st.markdown("### Featured Protocols")
     
-    cols = st.columns(3)  # You can adjust the number of columns
+    cols = st.columns(3)  # Adjust columns as needed
     for i, protocol in enumerate(featured_protocols):
-        with cols[i % 3]:  # Distribute items across columns
+        with cols[i % 3]:
             st.markdown(f"**{protocol['name']}**")
             st.write(protocol['description'])
-            st.button("View Protocol")
+            if st.button(f"View {protocol['name']}"):
+                st.experimental_set_query_params(protocol=protocol['link'])
